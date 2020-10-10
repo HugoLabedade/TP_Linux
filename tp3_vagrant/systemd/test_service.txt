@@ -1,0 +1,9 @@
+[Unit]
+Description=Date
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/test_service.sh
+
+[Install]
+WantedBy=multi-user.target

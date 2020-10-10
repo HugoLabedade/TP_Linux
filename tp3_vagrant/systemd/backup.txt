@@ -1,0 +1,12 @@
+[Unit]
+Description=backup au cas ou ya une ptite merde
+
+[Service]
+Type=simple
+PIDFILE=/var/run/backup.pid
+ExecStartPre=/bin/backupPre.sh
+ExecStart=/bin/backup.sh
+ExecStartPost=/bin/backupPost.sh 
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+[Unit]
+description=un timer qui va faire des sauvegardes toutes les heures
+
+[Timer]
+OnCalendar=hourly
+Unit=backup.service
+
+[Install]=multi-user.target

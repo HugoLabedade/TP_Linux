@@ -1,0 +1,27 @@
+disk = './secondDisk.vdi'
+
+Vagrant.configure("2")do|config|
+  config.vm.box="tp3.vm.ekip"
+  config.vm.network "private_network", ip: "192.168.3.11"
+  config.vm.hostname="tp3.b2"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "tp3_linux"
+  end
+
+  # Ajoutez cette ligne afin d'accélérer le démarrage de la VM (si une erreur 'vbguest' est levée, voir la note un peu plus bas)
+  config.vbguest.auto_update = false
+
+  # Désactive les updates auto qui peuvent ralentir le lancement de la machine
+  config.vm.box_check_update = false 
+
+  # La ligne suivante permet de désactiver le montage d'un dossier partagé (ne marche pas tout le temps directement suivant vos OS, versions d'OS, etc.)
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+  end
+
+ # config.vm.provision "shell", path: "script.sh"
+
+end
