@@ -1,0 +1,92 @@
+Vagrant.configure("2") do |config|
+  # Configuration commune à toutes les machines
+  config.vm.box="centos7-custom.box"
+
+  # Config une première VM "node.gitea"
+  config.vm.define "node.gitea" do |gitea|
+    # remarquez l'utilisation de 'node1.' défini sur la ligne au dessus
+    gitea.vm.network "private_network", ip: "192.168.4.11"
+
+    gitea.vm.provider :virtualbox do |vb|
+      vb.name = "node.gitea"
+    end
+
+    gitea.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    gitea.vm.provision "shell", path: ".sh"
+
+    gitea.vm.hostname="node.gitea"
+  end
+
+  
+
+  # Config une deuxième VM "node.mariadb"
+  config.vm.define "node.mariadb" do |mariadb|
+    # remarquez l'utilisation de 'node1.' défini sur la ligne au dessus
+    mariadb.vm.network "private_network", ip: "192.168.4.12"
+
+    mariadb.vm.provider :virtualbox do |vb|
+      vb.name = "node.mariadb"
+    end
+
+    mariadb.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    mariadb.vm.provision "shell", path: ".sh"
+
+    mariadb.vm.hostname="node.mariadb"
+  end
+
+
+
+  # Config une troisième VM "node.nginx"
+  config.vm.define "node.nginx" do |nginx|
+    # remarquez l'utilisation de 'node1.' défini sur la ligne au dessus
+    nginx.vm.network "private_network", ip: "192.168.4.13"
+
+    nginx.vm.provider :virtualbox do |vb|
+      vb.name = "node.nginx"
+    end
+
+    nginx.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    nginx.vm.provision "shell", path: ".sh"
+
+    nginx.vm.hostname="node.nginx"
+  end
+
+
+
+  # Config une troisième VM "node.nfs"
+  config.vm.define "node.nfs" do |nfs|
+    # remarquez l'utilisation de 'node1.' défini sur la ligne au dessus
+    nfs.vm.network "private_network", ip: "192.168.4.14"
+
+    nfs.vm.provider :virtualbox do |vb|
+      vb.name = "node.nfs"
+    end
+
+    nfs.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    nfs.vm.provision "shell", path: ".sh"
+
+    nfs.vm.hostname="node.nfs"
+  end
+
+
+  # Ajoutez cette ligne afin d'accélérer le démarrage de la VM (si une erreur 'vbguest' est levée, voir la note un peu plus bas)
+  config.vbguest.auto_update = false
+
+  # Désactive les updates auto qui peuvent ralentir le lancement de la machine
+  config.vm.box_check_update = false 
+
+  # La ligne suivante permet de désactiver le montage d'un dossier partagé (ne marche pas tout le temps directement suivant vos OS, versions d'OS, etc.)
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+end
